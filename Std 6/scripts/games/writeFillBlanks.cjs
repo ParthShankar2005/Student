@@ -1,5 +1,5 @@
 const fs = require('fs');
-const p = 'e:/intership/Std 6/Std 6/child/FillBlanksPage.tsx';
+const p = require('path').resolve(__dirname, '../src/child/FillBlanksPage.tsx');
 
 const newContent = `import React, { useEffect, useRef, useState } from 'react';
 import { fillBlanksLevelsMCQ } from '../data/fillBlanksLevelsMCQ';
@@ -399,3 +399,5 @@ export default FillBlanksPage;
 
 fs.writeFileSync(p, newContent, 'utf8');
 console.log('Written. Length:', fs.readFileSync(p,'utf8').length);
+
+

@@ -2,7 +2,7 @@
 Build-Time PDF Parser & Chunker
 ================================
 Extracts text from English Class 1.pdf and Mathematics Class 1.pdf
-using PyMuPDF, chunks it, and outputs data/knowledgeChunks.ts
+using PyMuPDF, chunks it, and outputs src/data/knowledgeChunks.ts
 
 Usage:  python scripts/buildKnowledgeBase.py
 """
@@ -172,7 +172,7 @@ def main():
         return
     
     # ──────── Write output ────────
-    data_dir = ROOT / "data"
+    data_dir = ROOT / "src/data"
     data_dir.mkdir(exist_ok=True)
     
     english_count = sum(1 for c in all_chunks if c["subject"] == "English")
@@ -201,7 +201,7 @@ export const PDF_KNOWLEDGE_BASE: TextbookChunk[] = {json.dumps(all_chunks, inden
     
     file_size_kb = output_path.stat().st_size / 1024
     
-    print(f"\n✅  Written {len(all_chunks)} chunks to data/knowledgeChunks.ts")
+    print(f"\n✅  Written {len(all_chunks)} chunks to src/data/knowledgeChunks.ts")
     print(f"    English chunks: {english_count}")
     print(f"    Math chunks:    {math_count}")
     print(f"    File size:      {file_size_kb:.1f} KB")
@@ -209,7 +209,7 @@ export const PDF_KNOWLEDGE_BASE: TextbookChunk[] = {json.dumps(all_chunks, inden
 
 
 def write_fallback():
-    data_dir = ROOT / "data"
+    data_dir = ROOT / "src/data"
     data_dir.mkdir(exist_ok=True)
     
     output_path = data_dir / "knowledgeChunks.ts"
@@ -219,8 +219,11 @@ def write_fallback():
         "export const PDF_KNOWLEDGE_BASE: TextbookChunk[] = [];\n",
         encoding="utf-8"
     )
-    print("   Written empty fallback to data/knowledgeChunks.ts")
+    print("   Written empty fallback to src/data/knowledgeChunks.ts")
 
 
 if __name__ == "__main__":
     main()
+
+
+

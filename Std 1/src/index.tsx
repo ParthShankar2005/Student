@@ -1,3 +1,5 @@
+import './theme/pastelTheme.css';
+import './index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -14,3 +16,4 @@ root.render(
     <App />
   </React.StrictMode>
 );
+

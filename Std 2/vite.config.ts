@@ -15,10 +15,19 @@ export default defineConfig(({ mode }) => {
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY || ''),
         'process.env.GROQ_API_KEY': JSON.stringify(env.GROQ_API_KEY || ''),
       },
+      build: {
+        outDir: 'dist',
+        emptyOutDir: true,
+        rollupOptions: {
+          input: path.resolve(__dirname, 'index.html'),
+        },
+      },
       resolve: {
         alias: {
-          '@': path.resolve(__dirname, '.'),
+          '@': path.resolve(__dirname, 'src'),
         }
       }
     };
 });
+
+

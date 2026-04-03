@@ -4,7 +4,7 @@
  * Parses Std 3 NCERT PDFs (English, Mathematics, Science)
  * using pdfjs-dist, extracts text page-by-page, chunks it into
  * ~400-char segments with overlap, and writes the output to
- * data/knowledgeChunks.ts as a typed constant.
+ * src/data/knowledgeChunks.ts as a typed constant.
  *
  * Usage:  node scripts/buildKnowledgeBase.mjs
  */
@@ -230,7 +230,7 @@ async function main() {
   }
 
   // ──────── Write output ────────
-  const dataDir = path.join(ROOT, 'data');
+  const dataDir = path.join(ROOT, 'src', 'data');
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
   const outputPath = path.join(dataDir, 'knowledgeChunks.ts');
@@ -255,7 +255,7 @@ export const PDF_KNOWLEDGE_BASE: TextbookChunk[] = ${JSON.stringify(allChunks, n
 
   fs.writeFileSync(outputPath, tsContent, 'utf-8');
 
-  console.log(`\n✅  Written ${allChunks.length} chunks to data/knowledgeChunks.ts`);
+  console.log(`\n✅  Written ${allChunks.length} chunks to src/data/knowledgeChunks.ts`);
   console.log(`    English chunks: ${allChunks.filter(c => c.subject === 'English').length}`);
   console.log(`    Math chunks:    ${allChunks.filter(c => c.subject === 'Math').length}`);
   console.log(`    File size:      ${(fs.statSync(outputPath).size / 1024).toFixed(1)} KB`);
@@ -263,7 +263,7 @@ export const PDF_KNOWLEDGE_BASE: TextbookChunk[] = ${JSON.stringify(allChunks, n
 }
 
 function writeFallback() {
-  const dataDir = path.join(ROOT, 'data');
+  const dataDir = path.join(ROOT, 'src', 'data');
   if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
   const outputPath = path.join(dataDir, 'knowledgeChunks.ts');
@@ -272,10 +272,13 @@ import { TextbookChunk } from '../types';
 export const PDF_KNOWLEDGE_BASE: TextbookChunk[] = [];
 `;
   fs.writeFileSync(outputPath, ts, 'utf-8');
-  console.log('   Written empty fallback to data/knowledgeChunks.ts');
+  console.log('   Written empty fallback to src/data/knowledgeChunks.ts');
 }
 
 main().catch(err => {
   console.error('Fatal error:', err);
   process.exit(1);
 });
+
+
+

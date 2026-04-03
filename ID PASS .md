@@ -9,5 +9,4 @@ These Student ID and password pairs are used for standard student login. The Par
 | Std 3 | STU2024301 | Sch@031 | 0031 |
 | Std 4 | STU2024401 | Sch@041 | 0041 |
 | Std 5 | STU2024501 | Sch@051 | 0051 |
-| Std 6 | STU2024601 | Sch@061 | 0061
- |
+| Std 6 | STU2024601 | Sch@061 | 0061 |

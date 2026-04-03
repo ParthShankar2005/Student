@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Standards Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #f4f8ff;
+      --bg-2: #fff6ef;
+      --ink-1: #12314f;
+      --ink-2: #35516f;
+      --surface-border: rgba(17, 24, 39, 0.1);
+      --shadow: 0 12px 24px rgba(17, 24, 39, 0.1);
+      --shadow-hover: 0 18px 34px rgba(17, 24, 39, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Nunito", sans-serif;
+      color: var(--ink-1);
+      background:
+        radial-gradient(circle at 13% 16%, #d7eefc 0 24%, transparent 25%),
+        radial-gradient(circle at 84% 14%, #f7e0c5 0 20%, transparent 21%),
+        radial-gradient(circle at 87% 84%, #d5f0e2 0 21%, transparent 22%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      display: grid;
+      place-items: center;
+      padding: 28px 16px;
+    }
+
+    .portal {
+      width: min(1240px, 100%);
+      text-align: center;
+    }
+
+    .title {
+      margin: 0;
+      font-family: "Baloo 2", cursive;
+      font-size: clamp(2rem, 3vw, 2.7rem);
+      letter-spacing: 0.02em;
+      color: #0f355f;
+    }
+
+    .subtitle {
+      margin: 6px 0 24px;
+      color: var(--ink-2);
+      font-size: clamp(0.98rem, 1.5vw, 1.08rem);
+      font-weight: 700;
+    }
+
+    .overview {
+      width: min(1040px, 100%);
+      margin: 0 auto 18px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+      backdrop-filter: blur(10px) saturate(120%);
+      -webkit-backdrop-filter: blur(10px) saturate(120%);
+    }
+
+    .overview-text {
+      margin: 0 0 10px;
+      color: #1b3f63;
+      font-size: 0.94rem;
+      font-weight: 700;
+      line-height: 1.42;
+    }
+
+    .overview-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .overview-tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(17, 24, 39, 0.1);
+      color: #244d73;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .guide-grid {
+      width: min(1040px, 100%);
+      margin: 0 auto 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .guide-card {
+      text-align: left;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.56);
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      color: #254567;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .guide-title {
+      margin: 0 0 4px;
+      font-size: 0.83rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 900;
+      color: #1b4d78;
+    }
+
+    .guide-copy {
+      margin: 0;
+      font-size: 0.86rem;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 255px));
+      gap: 18px;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .std-card {
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--theme-ink);
+      background: linear-gradient(155deg, var(--theme-a), var(--theme-b));
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      border-radius: 18px;
+      box-shadow:
+        0 10px 24px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.46),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(14px) saturate(132%);
+      -webkit-backdrop-filter: blur(14px) saturate(132%);
+      padding: 16px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto auto;
+      gap: 9px;
+      min-height: 254px;
+      text-align: left;
+      transition: transform 0.23s ease, box-shadow 0.23s ease, filter 0.23s ease;
+    }
+
+    .std-card::before {
+      content: "";
+      position: absolute;
+      width: 115px;
+      height: 115px;
+      border-radius: 999px;
+      background: linear-gradient(145deg, var(--theme-blob-1), var(--theme-blob-2));
+      top: -45px;
+      right: -34px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .std-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(125deg, rgba(255, 255, 255, 0.32) 0%, transparent 42%, rgba(255, 255, 255, 0.08) 100%);
+      pointer-events: none;
+    }
+
+    .std-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      filter: saturate(1.06);
+    }
+
+    .std-card:focus-visible {
+      outline: 3px solid var(--theme-accent);
+      outline-offset: 3px;
+    }
+
+    .std-shine {
+      position: absolute;
+      top: -30%;
+      left: -55%;
+      width: 46%;
+      height: 170%;
+      transform: translateX(-185%) rotate(14deg);
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.15) 44%,
+        rgba(255, 255, 255, 0.46) 50%,
+        rgba(255, 255, 255, 0.15) 56%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      pointer-events: none;
+      z-index: 0;
+      transition: transform 0.72s cubic-bezier(0.24, 0.72, 0.16, 1);
+      will-change: transform;
+    }
+
+    .std-card:hover .std-shine,
+    .std-card:focus-visible .std-shine {
+      transform: translateX(235%) rotate(14deg);
+    }
+
+    .std-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .std-no {
+      justify-self: start;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      border: 1px solid rgba(17, 24, 39, 0.12);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .std-track {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(17, 24, 39, 0.1);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--theme-accent);
+    }
+
+    .std-theme {
+      font-size: 1.12rem;
+      font-weight: 900;
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
+    }
+
+    .std-usp {
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.34;
+      font-weight: 700;
+      color: var(--theme-ink);
+      position: relative;
+      z-index: 1;
+    }
+
+    .std-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .std-meta {
+      margin: 0;
+      font-size: 0.8rem;
+      line-height: 1.3;
+      font-weight: 800;
+      color: var(--theme-ink);
+      position: relative;
+      z-index: 1;
+    }
+
+    .std-meta b {
+      color: var(--theme-accent);
+      font-weight: 900;
+    }
+
+    .std-tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(17, 24, 39, 0.1);
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--theme-ink);
+    }
+
+    .std-go {
+      margin-top: 2px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      color: var(--theme-accent);
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .std-go::after {
+      content: " ->";
+      font-weight: 900;
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: minmax(220px, 340px);
+      }
+
+      .overview,
+      .guide-grid {
+        width: min(430px, 100%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="portal">
+    <h1 class="title">Choose Your Standard</h1>
+    <p class="subtitle">Single click on a card to open that standard folder.</p>
+    <section class="overview" aria-label="Portal overview">
+      <p class="overview-text">
+        This portal gives grade-wise access to each student module. Every standard has a different theme, learning flow, and activity mix while keeping one-click entry for faster navigation.
+      </p>
+      <div class="overview-tags">
+        <span class="overview-tag">8 Standards</span>
+        <span class="overview-tag">Theme-Based Experience</span>
+        <span class="overview-tag">Games + Curriculum Integration</span>
+        <span class="overview-tag">Parent Insight Ready</span>
+      </div>
+    </section>
+    <section class="guide-grid" aria-label="Usage guide">
+      <article class="guide-card">
+        <h2 class="guide-title">How To Use</h2>
+        <p class="guide-copy">Click any standard card to open that folder directly. Card color, title, and tags indicate the primary learning style for that grade.</p>
+      </article>
+      <article class="guide-card">
+        <h2 class="guide-title">What Cards Show</h2>
+        <p class="guide-copy">Each card includes theme identity, USP, focus area, and learning mode so students and parents can quickly pick the right module.</p>
+      </article>
+      <article class="guide-card">
+        <h2 class="guide-title">Progress Direction</h2>
+        <p class="guide-copy">Foundation standards emphasize basics, middle standards strengthen application, and upper standards move toward structured mastery and revision.</p>
+      </article>
+    </section>
+    <section class="grid" id="standards-grid" aria-label="Standards">
+    </section>
+  </main>
+
+  <script>
+    const standards = [
+      {
+        std: 1,
+        track: "Foundation",
+        theme: "Color Magic Garden",
+        usp: "Early literacy and number confidence through color play and tree-world rewards.",
+        focus: "Foundational reading + counting",
+        mode: "Visual + story-led learning",
+        tags: ["Color Magic", "Phonics", "Tree World"],
+        a: "#ecf7ff", b: "#ffecf4", blob1: "#b8e2ff", blob2: "#ffb8d4", ink: "#2f3d8a", accent: "#5b6cff"
+      },
+      {
+        std: 2,
+        track: "Explorer",
+        theme: "Ocean and Space Path",
+        usp: "Counting fluency and reading speed using ocean missions and solar learning tracks.",
+        focus: "Accuracy + confidence building",
+        mode: "Mission-based interaction",
+        tags: ["Ocean Quest", "Count Fish", "Solar Route"],
+        a: "#effcff", b: "#effcf7", blob1: "#a7e7f5", blob2: "#a7dfcf", ink: "#1f6f7e", accent: "#2f92ab"
+      },
+      {
+        std: 3,
+        track: "Connector",
+        theme: "Eco and Logic Worlds",
+        usp: "Builds pattern thinking by linking ecosystem stories with language and math strategy.",
+        focus: "Reasoning + concept linking",
+        mode: "Theme-to-concept mapping",
+        tags: ["Eco System", "Space Challenge", "Pattern Logic"],
+        a: "#ecf7ff", b: "#f5f0ff", blob1: "#b8e2ff", blob2: "#c9b8ff", ink: "#304582", accent: "#4a90d9"
+      },
+      {
+        std: 4,
+        track: "Builder",
+        theme: "Word Builder Trail",
+        usp: "Chapter-driven reading, reasoning, and vocabulary growth through guided challenge paths.",
+        focus: "Language depth + chapter mastery",
+        mode: "Practice + guided challenges",
+        tags: ["Word Builder", "Odd One Out", "Reading Timer"],
+        a: "#fff3d9", b: "#ffecf4", blob1: "#ffe8a0", blob2: "#ffc9aa", ink: "#78350f", accent: "#b3661f"
+      },
+      {
+        std: 5,
+        track: "Mastery",
+        theme: "Brain and Puzzle Studio",
+        usp: "Deeper subject mastery with puzzle flow, brain boosts, and multi-skill progression.",
+        focus: "Multi-subject application",
+        mode: "Puzzle-driven reinforcement",
+        tags: ["Brain Boost", "Puzzle Zone", "Skill Growth"],
+        a: "#edf9f2", b: "#f3f9e9", blob1: "#abd9c2", blob2: "#9bc27e", ink: "#2f5f3d", accent: "#2f8f4f"
+      },
+      {
+        std: 6,
+        track: "Advanced",
+        theme: "Kingdom Quest Hub",
+        usp: "Integrated English, Math, arcade, and fill-blanks journey with stronger analytics.",
+        focus: "Advanced structured progression",
+        mode: "Curriculum + arcade blend",
+        tags: ["English Kingdom", "Math World", "Arcade and Quiz"],
+        a: "#effcff", b: "#f2fdff", blob1: "#9fdcf3", blob2: "#78cce8", ink: "#125f82", accent: "#0b8bc2"
+      },
+      {
+        std: 7,
+        track: "Scholar",
+        theme: "Concept Bridge Track",
+        usp: "Transition-grade rigor with concept linking, structured practice, and progress checks.",
+        focus: "Exam-oriented concept strength",
+        mode: "Structured checkpoint model",
+        tags: ["Concept Bridge", "Practice Sets", "Skill Tracking"],
+        a: "#f3f7ff", b: "#eef8f5", blob1: "#c2d5ff", blob2: "#c2e8d8", ink: "#1f3b67", accent: "#2b5aa0"
+      },
+      {
+        std: 8,
+        track: "Board Prep",
+        theme: "Revision Command Deck",
+        usp: "Board-focused revision workflow with high-intensity practice and mastery consolidation.",
+        focus: "High-pressure revision readiness",
+        mode: "Targeted drill + review loops",
+        tags: ["Revision Sprint", "Exam Readiness", "Mastery Check"],
+        a: "#eef2ff", b: "#f7eeff", blob1: "#c9d6ff", blob2: "#dfc2ff", ink: "#2d2a68", accent: "#5143b8"
+      }
+    ];
+
+    const grid = document.getElementById("standards-grid");
+
+    standards.forEach((item) => {
+      const card = document.createElement("a");
+      card.className = "std-card";
+      card.href = `./Std%20${item.std}/`;
+      card.style.setProperty("--theme-a", item.a);
+      card.style.setProperty("--theme-b", item.b);
+      card.style.setProperty("--theme-blob-1", item.blob1);
+      card.style.setProperty("--theme-blob-2", item.blob2);
+      card.style.setProperty("--theme-ink", item.ink);
+      card.style.setProperty("--theme-accent", item.accent);
+      card.setAttribute("aria-label", `Open Standard ${item.std}`);
+
+      const tags = item.tags.map((tag) => `<span class="std-tag">${tag}</span>`).join("");
+
+      card.innerHTML = `
+        <span class="std-shine" aria-hidden="true"></span>
+        <div class="std-head">
+          <span class="std-no">Std ${item.std}</span>
+          <span class="std-track">${item.track}</span>
+        </div>
+        <div class="std-theme">${item.theme}</div>
+        <p class="std-usp">${item.usp}</p>
+        <p class="std-meta"><b>Focus:</b> ${item.focus}</p>
+        <p class="std-meta"><b>Mode:</b> ${item.mode}</p>
+        <div class="std-tags">${tags}</div>
+        <div class="std-go">Open Standard</div>
+      `;
+
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
