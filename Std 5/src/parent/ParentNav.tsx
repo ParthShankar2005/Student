@@ -12,6 +12,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../auth/AuthContext';
+import { getAuditLog } from '../utils/auditLog';
+import { buildLiveMonitoring, type LiveMonitoringState } from './liveMonitoring';
 
 /* ── Screen type ── */
 
@@ -178,11 +180,17 @@ export const ParentNav: React.FC<Props> = React.memo(({ active, onNavigate }) =>
   const { user } = useAuth();
   const firstName = user.name?.split(' ')[0] || 'Parent';
 
-  /* ── Real-time clock ── */
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [liveMonitoring, setLiveMonitoring] = useState<LiveMonitoringState>(() => buildLiveMonitoring(getAuditLog()));
+
   useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
+    const sync = () => setLiveMonitoring(buildLiveMonitoring(getAuditLog()));
+    sync();
+    const timer = window.setInterval(sync, 2000);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('storage', sync);
+    };
   }, []);
 
   return (
@@ -252,39 +260,60 @@ export const ParentNav: React.FC<Props> = React.memo(({ active, onNavigate }) =>
         ))}
       </nav>
 
-      {/* Static bottom status — always visible */}
+      {/* Live monitoring */}
       <div style={{
         flexShrink: 0,
         padding: '8px 8px 12px',
         borderTop: '1px solid rgba(127,174,101,0.08)',
       }}>
         <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          background: 'rgba(127,174,101,0.06)', borderRadius: 14,
-          padding: '8px 12px',
+          display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8,
         }}>
-          <div style={{
-            width: 8, height: 8, borderRadius: '50%',
-            background: '#10B981',
-            boxShadow: '0 0 8px rgba(16,185,129,0.4)',
-            flexShrink: 0,
-          }} />
-          <div style={{ minWidth: 0 }}>
-            <p style={{ fontSize: 10, fontWeight: 700, color: '#2E5E3A', margin: 0, whiteSpace: 'nowrap' }}>Live Monitoring</p>
-            <p style={{ fontSize: 8, fontWeight: 500, color: '#6C9274', margin: 0, whiteSpace: 'nowrap' }}>Real-time data active</p>
-          </div>
+          <motion.div
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: liveMonitoring.indicatorColor,
+              boxShadow: `0 0 8px ${liveMonitoring.indicatorColor}66`,
+              flexShrink: 0,
+            }}
+            animate={{ scale: [1, 1.25, 1], opacity: [1, 0.72, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <p style={{ fontSize: 10, fontWeight: 800, color: '#2E5E3A', margin: 0, letterSpacing: '0.08em' }}>LIVE STATUS</p>
+          <span
+            style={{
+              marginLeft: 'auto',
+              fontSize: 9,
+              fontWeight: 800,
+              color: liveMonitoring.badgeColor,
+              background: `${liveMonitoring.badgeColor}1f`,
+              padding: '3px 8px',
+              borderRadius: 999,
+            }}
+          >
+            {liveMonitoring.badge}
+          </span>
         </div>
         <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
+          display: 'flex', flexDirection: 'column', gap: 6,
           background: 'rgba(63,143,58,0.05)', borderRadius: 14,
-          padding: '8px 12px', marginTop: 6,
+          padding: '9px 12px',
         }}>
-          <span style={{ fontSize: 14, flexShrink: 0 }}>🕐</span>
-          <div style={{ minWidth: 0 }}>
-            <p style={{ fontSize: 10, fontWeight: 700, color: '#2E5E3A', margin: 0, whiteSpace: 'nowrap' }}>Current Time</p>
-            <p style={{ fontSize: 12, fontWeight: 700, color: '#3F8F3A', margin: 0, fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
-              {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: '#6C9274' }}>Last activity</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#2E5E3A', textAlign: 'right' }}>{liveMonitoring.lastSession}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: '#6C9274' }}>Recent session</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#2E5E3A', textAlign: 'right' }}>{liveMonitoring.sessionLength}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: '#6C9274' }}>Current activity</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#3F8F3A', textAlign: 'right', maxWidth: 120, lineHeight: 1.35 }}>
+              {liveMonitoring.currentActivity}
+            </span>
           </div>
         </div>
       </div>

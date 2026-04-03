@@ -1,42 +1,59 @@
-/**
- * report-print.css
- * ─────────────────────────────────────────────────────
- * Print-specific stylesheet for ReportPreview.
- *
- * On-screen: styles the A4 container with shadow and margins.
- * On print : hides action bar, removes shadow, forces A4 sizing,
- *            sets proper margins and avoids page overflow.
- */
-
-/* ── On-screen A4 simulation ──────────────────────── */
-
 .report-page {
-  background: #fff;
-  padding: 36px 40px;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  --report-primary: #1e293b;
+  --report-secondary: #334155;
+  --report-soft: #eef2ff;
+
+  background: linear-gradient(180deg, var(--report-soft) 0%, #ffffff 22%);
+  padding: 34px 38px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-top: 6px solid var(--report-primary);
+  border-radius: 14px;
+  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.12);
   min-height: 297mm;
   font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  color: #111827;
+  color: #0f172a;
   line-height: 1.5;
 }
 
-/* ── Print rules ──────────────────────────────────── */
+.report-preview-shell {
+  color: #0f172a;
+}
+
+.report-chip {
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  border-radius: 10px;
+  background: #ffffff;
+  padding: 7px 10px;
+  font-size: 11px;
+  color: #334155;
+}
+
+.report-chip strong {
+  color: var(--report-primary);
+}
+
+.report-page table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.report-page tbody tr:nth-child(odd) {
+  background: var(--report-soft);
+}
+
+.report-page tbody tr:nth-child(even) {
+  background: #ffffff;
+}
 
 @media print {
-  /* Reset page */
   @page {
     size: A4 portrait;
-    margin: 18mm 16mm;
+    margin: 14mm 12mm;
   }
 
-  /* Hide everything except report */
   body > *:not(#root),
   .report-actions,
   nav,
-  header:not(.report-page header),
-  footer:not(.report-page footer),
   [class*='glass'],
   [class*='floating'],
   [class*='mascot'],
@@ -45,7 +62,6 @@
     display: none !important;
   }
 
-  /* Main container resets */
   body {
     background: #fff !important;
     margin: 0 !important;
@@ -59,32 +75,32 @@
     margin: 0 !important;
   }
 
-  /* Report page itself */
   .report-page {
     box-shadow: none;
     border: none;
     border-radius: 0;
-    padding: 0;
+    border-top: 4px solid var(--report-primary);
+    padding: 20px 0 0;
     min-height: auto;
     width: 100%;
     page-break-inside: auto;
+    background: #ffffff !important;
   }
 
-  /* Prevent sections from breaking across pages */
   .report-page h3,
-  .report-page table {
+  .report-page table,
+  .report-page ul {
     page-break-inside: avoid;
     break-inside: avoid;
   }
 
-  /* Footer always at the end */
   .report-page > footer {
     page-break-before: auto;
   }
 
-  /* Force background colors to print */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 }
+

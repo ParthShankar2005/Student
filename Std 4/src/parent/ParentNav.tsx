@@ -12,6 +12,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useReadingBookTimer } from '../child/ReadingBookTimerContext';
+import { getAuditLog } from '../utils/auditLog';
+import { buildLiveMonitoring, type LiveMonitoringState } from './liveMonitoring';
 
 /* ── Screen type ── */
 
@@ -165,11 +167,17 @@ interface Props {
 }
 
 export const ParentNav: React.FC<Props> = React.memo(({ active, onNavigate }) => {
-  /* ── Real-time clock ── */
-  const [currentTime, setCurrentTime] = useState(new Date());
+  const [liveMonitoring, setLiveMonitoring] = useState<LiveMonitoringState>(() => buildLiveMonitoring(getAuditLog()));
+
   useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
+    const sync = () => setLiveMonitoring(buildLiveMonitoring(getAuditLog()));
+    sync();
+    const timer = window.setInterval(sync, 2000);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('storage', sync);
+    };
   }, []);
 
   /* ── Reading book timer ── */
@@ -236,32 +244,52 @@ export const ParentNav: React.FC<Props> = React.memo(({ active, onNavigate }) =>
         borderTop: '1px solid rgba(255,255,255,0.35)',
       }}>
         <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          background: 'rgba(129,140,248,0.06)', borderRadius: 14,
-          padding: '10px 14px',
+          display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8,
         }}>
-          <div style={{
-            width: 8, height: 8, borderRadius: '50%',
-            background: '#10B981',
-            boxShadow: '0 0 8px rgba(16,185,129,0.4)',
-          }} />
-          <div>
-            <p style={{ fontSize: 10, fontWeight: 700, color: '#3A3F9F', margin: 0 }}>Live Monitoring</p>
-            <p style={{ fontSize: 8, fontWeight: 500, color: '#92400e', margin: 0 }}>Real-time data active</p>
-          </div>
+          <motion.div
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: liveMonitoring.indicatorColor,
+              boxShadow: `0 0 8px ${liveMonitoring.indicatorColor}66`,
+            }}
+            animate={{ scale: [1, 1.25, 1], opacity: [1, 0.72, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <p style={{ fontSize: 10, fontWeight: 800, color: '#3A3F9F', margin: 0, letterSpacing: '0.08em' }}>LIVE STATUS</p>
+          <span
+            style={{
+              marginLeft: 'auto',
+              fontSize: 9,
+              fontWeight: 800,
+              color: liveMonitoring.badgeColor,
+              background: `${liveMonitoring.badgeColor}1f`,
+              padding: '3px 8px',
+              borderRadius: 999,
+            }}
+          >
+            {liveMonitoring.badge}
+          </span>
         </div>
-        {/* Real-time Clock */}
         <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
+          display: 'flex', flexDirection: 'column', gap: 6,
           background: 'rgba(99,102,241,0.05)', borderRadius: 14,
-          padding: '10px 14px', marginTop: 8,
+          padding: '9px 12px',
         }}>
-          <span style={{ fontSize: 14 }}>🕐</span>
-          <div>
-            <p style={{ fontSize: 10, fontWeight: 700, color: '#3A3F9F', margin: 0 }}>Current Time</p>
-            <p style={{ fontSize: 12, fontWeight: 700, color: '#f59e0b', margin: 0, fontVariantNumeric: 'tabular-nums' }}>
-              {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: '#92400e' }}>Last activity</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#3A3F9F', textAlign: 'right' }}>{liveMonitoring.lastSession}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: '#92400e' }}>Recent session</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#3A3F9F', textAlign: 'right' }}>{liveMonitoring.sessionLength}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: '#92400e' }}>Current activity</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#f59e0b', textAlign: 'right', maxWidth: 120, lineHeight: 1.35 }}>
+              {liveMonitoring.currentActivity}
+            </span>
           </div>
         </div>
 

@@ -87,7 +87,7 @@ const SettingsCard: React.FC<{ children: React.ReactNode; delay?: number; gradie
 
 export const SettingsPage: React.FC = () => {
   const { muted, toggleMute } = useSound();
-  const { user } = useAuth();
+  const { user, studentProfile, updateStudentProfile } = useAuth();
   const {
     limitEnabled,
     limitMinutes,
@@ -150,11 +150,35 @@ export const SettingsPage: React.FC = () => {
     try { const s = localStorage.getItem(settingsKey); if (!s) return false; return (JSON.parse(s) as { allowExtendedPlay?: boolean }).allowExtendedPlay ?? false; } catch { return false; }
   });
   const [saveFeedback, setSaveFeedback] = useState<{ tone: 'success' | 'error'; message: string } | null>(null);
+  const [statsSnapshot, setStatsSnapshot] = useState({ streak: 0, badges: 0, attendance: 0 });
 
   useEffect(() => {
     setPlaytimeLimitDraft(limitMinutes);
     setPlaytimeEnabledDraft(limitEnabled);
   }, [limitMinutes, limitEnabled]);
+
+  useEffect(() => {
+    const syncStats = () => {
+      try {
+        const raw = localStorage.getItem('ssms_stats_v2');
+        const parsed = raw ? JSON.parse(raw) : {};
+        const streak = Number(parsed?.streak) || 0;
+        const badges = Array.isArray(parsed?.badges) ? parsed.badges.length : 0;
+        const attendance = Array.isArray(parsed?.attendance) ? parsed.attendance.length : 0;
+        setStatsSnapshot({ streak, badges, attendance });
+      } catch {
+        setStatsSnapshot({ streak: 0, badges: 0, attendance: 0 });
+      }
+    };
+
+    syncStats();
+    const timer = window.setInterval(syncStats, 3000);
+    window.addEventListener('storage', syncStats);
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('storage', syncStats);
+    };
+  }, []);
 
   const playtimeChanged = useMemo(
     () => playtimeLimitDraft !== limitMinutes || playtimeEnabledDraft !== limitEnabled,
@@ -206,6 +230,12 @@ export const SettingsPage: React.FC = () => {
         dailySummary, weeklyReport, smsAlerts, allowGames, allowAiBuddy, allowExtendedPlay,
       }));
       localStorage.setItem('ssms_parent_access_key', parentAccessKey.trim());
+      updateStudentProfile({
+        parentName: parentName.trim(),
+        phone: phone.trim(),
+        address: address.trim(),
+        parentAccessKey: parentAccessKey.trim(),
+      });
       setSaveFeedback({ tone: 'success', message: keyChanged ? 'Saved. New access key is active.' : 'Parent settings saved.' });
       setOldParentAccessKey('');
       setTimeout(() => setSaveFeedback(null), 3000);
@@ -239,6 +269,36 @@ export const SettingsPage: React.FC = () => {
         <h1 style={{ fontSize: 24, fontWeight: 800, color: CLR.primary, margin: 0 }}>Settings</h1>
         <p style={{ fontSize: 13, fontWeight: 500, color: CLR.muted, marginTop: 4 }}>Manage preferences and parental controls</p>
       </motion.div>
+
+      <SettingsCard delay={0.02} gradient="linear-gradient(135deg, rgba(59,63,175,0.08), rgba(107,111,207,0.05))">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <span style={{ fontSize: 18 }}>👨‍👩‍👧</span>
+          <div>
+            <h3 style={{ fontSize: 15, fontWeight: 700, color: CLR.primary, margin: 0 }}>Family Snapshot</h3>
+            <p style={{ fontSize: 11, fontWeight: 500, color: CLR.muted, margin: '2px 0 0 0' }}>Live profile details and current learning rhythm.</p>
+          </div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
+          <div style={{ border: '1px solid rgba(99,102,241,0.15)', borderRadius: 12, padding: 12, background: 'rgba(255,255,255,0.75)' }}>
+            <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: CLR.muted, letterSpacing: '0.06em' }}>CHILD</p>
+            <p style={{ margin: '4px 0 2px', fontSize: 14, fontWeight: 800, color: CLR.primary }}>{studentProfile?.studentName || user.name || 'Student'}</p>
+            <p style={{ margin: 0, fontSize: 11, color: CLR.secondary }}>Std {studentProfile?.grade ?? user.grade}</p>
+            <p style={{ margin: '4px 0 0', fontSize: 10, color: CLR.muted }}>{studentProfile?.studentId || `std-${user.grade}-001`}</p>
+          </div>
+          <div style={{ border: '1px solid rgba(99,102,241,0.15)', borderRadius: 12, padding: 12, background: 'rgba(255,255,255,0.75)' }}>
+            <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: CLR.muted, letterSpacing: '0.06em' }}>PARENT</p>
+            <p style={{ margin: '4px 0 2px', fontSize: 14, fontWeight: 800, color: CLR.primary }}>{parentName.trim() || studentProfile?.parentName || 'Parent'}</p>
+            <p style={{ margin: 0, fontSize: 11, color: CLR.secondary }}>{phone.trim() || studentProfile?.phone || 'No phone added'}</p>
+            <p style={{ margin: '4px 0 0', fontSize: 10, color: CLR.muted }}>{email.trim() || 'No email added'}</p>
+          </div>
+          <div style={{ border: '1px solid rgba(99,102,241,0.15)', borderRadius: 12, padding: 12, background: 'rgba(255,255,255,0.75)' }}>
+            <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: CLR.muted, letterSpacing: '0.06em' }}>ENGAGEMENT</p>
+            <p style={{ margin: '4px 0 2px', fontSize: 14, fontWeight: 800, color: CLR.primary }}>{statsSnapshot.streak} day streak</p>
+            <p style={{ margin: 0, fontSize: 11, color: CLR.secondary }}>{statsSnapshot.badges} badges earned</p>
+            <p style={{ margin: '4px 0 0', fontSize: 10, color: CLR.muted }}>{statsSnapshot.attendance} attendance days logged</p>
+          </div>
+        </div>
+      </SettingsCard>
 
       <SettingsCard delay={0.03}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
