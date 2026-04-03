@@ -576,7 +576,7 @@ export const ReportPreview: React.FC<ReportPreviewProps> = ({ data, onBack }) =>
         </button>
       </div>
 
-      <div ref={printRef} className="report-page" style={themeStyle}>
+      <div ref={printRef} className={`report-page report-page-std-${data.grade}`} style={themeStyle}>
         <div className="report-orb report-orb-a" aria-hidden />
         <div className="report-orb report-orb-b" aria-hidden />
 
@@ -587,7 +587,7 @@ export const ReportPreview: React.FC<ReportPreviewProps> = ({ data, onBack }) =>
             <p className="report-parent">Prepared for {preferences.parentName}</p>
           </div>
           <div className="report-header-meta">
-            <span className="report-pill">{theme.label} Theme</span>
+            <span className="report-pill">Std {data.grade} - {theme.label}</span>
             <span className="report-pill">Generated: {data.generatedAt}</span>
           </div>
         </header>

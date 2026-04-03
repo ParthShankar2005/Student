@@ -76,7 +76,35 @@
   color: #0f172a;
   line-height: 1.45;
 }
+.report-page-std-1 {
+  border-color: rgba(37, 99, 235, 0.36);
+  box-shadow: 0 26px 45px rgba(30, 58, 138, 0.16);
+}
 
+.report-page-std-2 {
+  border-color: rgba(109, 40, 217, 0.34);
+  box-shadow: 0 26px 45px rgba(76, 29, 149, 0.16);
+}
+
+.report-page-std-3 {
+  border-color: rgba(51, 65, 85, 0.34);
+  box-shadow: 0 26px 45px rgba(30, 41, 59, 0.16);
+}
+
+.report-page-std-4 {
+  border-color: rgba(180, 83, 9, 0.34);
+  box-shadow: 0 26px 45px rgba(146, 64, 14, 0.16);
+}
+
+.report-page-std-5 {
+  border-color: rgba(21, 128, 61, 0.34);
+  box-shadow: 0 26px 45px rgba(22, 101, 52, 0.16);
+}
+
+.report-page-std-6 {
+  border-color: rgba(13, 97, 127, 0.34);
+  box-shadow: 0 26px 45px rgba(13, 97, 127, 0.16);
+}
 .report-orb {
   position: absolute;
   width: 220px;
