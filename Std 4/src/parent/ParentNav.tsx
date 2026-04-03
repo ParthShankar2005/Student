@@ -17,7 +17,7 @@ import { buildLiveMonitoring, type LiveMonitoringState } from './liveMonitoring'
 
 /* ── Screen type ── */
 
-export type ParentScreen = 'overview' | 'progress' | 'attendance' | 'ai-buddy' | 'books' | 'settings';
+export type ParentScreen = 'overview' | 'progress' | 'attendance' | 'ai-buddy' | 'books' | 'report' | 'settings';
 
 /* ── Nav Items ── */
 
@@ -38,6 +38,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'attendance',  label: 'Attendance',     sublabel: 'Tracking',      icon: '📅', gradient: '-emerald- -yellow-',     glowColor: 'rgba(6,182,212,0.20)',    accentColor: '#06b6d4', iconBg: 'rgba(6,182,212,0.10)' },
   { key: 'ai-buddy',   label: 'AI Insights',    sublabel: 'Smart Help',    icon: '🧠', gradient: 'from-amber-400 to-orange-500',  glowColor: 'rgba(245,158,11,0.20)',   accentColor: '#f59e0b', iconBg: 'rgba(245,158,11,0.10)' },
   { key: 'books',       label: 'Books',           sublabel: 'Library',       icon: '📚', gradient: 'from-rose-400 to-pink-500',    glowColor: 'rgba(244,63,94,0.20)',    accentColor: '#f43f5e', iconBg: 'rgba(244,63,94,0.10)' },
+  { key: 'report',      label: 'Report Card',    sublabel: 'Print Report',   icon: '📄', gradient: 'from-teal-400 to-cyan-500',    glowColor: 'rgba(20,184,166,0.20)',   accentColor: '#14b8a6', iconBg: 'rgba(20,184,166,0.10)' },
   { key: 'settings',    label: 'Settings',       sublabel: 'Preferences',   icon: '⚙️', gradient: 'from-slate-400 to-gray-500',    glowColor: 'rgba(100,116,139,0.15)',  accentColor: '#64748b', iconBg: 'rgba(100,116,139,0.08)' },
 ];
 

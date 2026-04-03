@@ -11,10 +11,10 @@
  * Performance: React.memo, useCallback, transform+opacity only.
  */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useXP } from '../XPProvider';
 import { useAuth } from '../../auth/AuthContext';
+import { deriveLearningSyncData } from './homeActivityData';
 
 /* ── Design tokens ──────────────────────────────── */
 
@@ -43,21 +43,7 @@ interface SyncData {
 }
 
 function loadSyncData(): SyncData {
-  try {
-    const raw = localStorage.getItem('ssms_learning_sync');
-    if (raw) return JSON.parse(raw) as SyncData;
-  } catch { /* ignore */ }
-  // Default demo data
-  return {
-    lastReview: 'Yesterday',
-    weeklyMinutes: 45,
-    encouragement: 'You\'re doing amazing! Keep it up! 🌟',
-    activeDays: [1, 1, 0, 1, 1, 0, 1], // Mon-Sun
-    strengths: ['Math Games', 'Color Recognition'],
-    improvements: ['Reading Practice', 'Writing Practice'],
-    weeklyXP: 120,
-    completionPct: 72,
-  };
+  return deriveLearningSyncData();
 }
 
 /* ── Day names ───────────────────────────────────── */
@@ -222,7 +208,18 @@ ParentView.displayName = 'ParentView';
 export const LearningConnection: React.FC = React.memo(() => {
   const { user } = useAuth();
   const isParent = user.role === 'parent';
-  const data = useMemo(loadSyncData, []);
+  const [data, setData] = useState<SyncData>(() => loadSyncData());
+
+  useEffect(() => {
+    const sync = () => setData(loadSyncData());
+    sync();
+    const intervalId = window.setInterval(sync, 5000);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener('storage', sync);
+    };
+  }, []);
 
   return (
     <motion.div
@@ -274,3 +271,4 @@ export const LearningConnection: React.FC = React.memo(() => {
 });
 
 LearningConnection.displayName = 'LearningConnection';
+

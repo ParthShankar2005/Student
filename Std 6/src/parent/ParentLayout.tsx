@@ -21,6 +21,7 @@ import { ProgressPage } from './pages/ProgressPage';
 import { AttendancePage } from './pages/AttendancePage';
 import { GardenGrowthPage } from './pages/GardenGrowthPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { ReportCardPage } from './pages/ReportCardPage';
 import { NCERTAssistantPage } from './pages/NCERTAssistantPage';
 import { AiBuddyLearningZone } from './pages/AiBuddyLearningZone';
 import { AiWorksheetGenerator } from './pages/AiWorksheetGenerator';
@@ -130,6 +131,7 @@ const ParentShell: React.FC = () => {
           <FillBlanksParentReport />
         </Suspense>
       );
+      case 'report':      return <ReportCardPage onBack={() => setActiveScreen('overview')} />;
       case 'funfacts':    return (
         <Suspense fallback={<div style={{textAlign:'center',padding:40}}>Loading…</div>}>
           <FunFactsParentReport />

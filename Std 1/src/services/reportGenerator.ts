@@ -93,7 +93,7 @@ export function generateReportCardPDF(data: ReportData): void {
 
   doc.setFontSize(10);
   doc.setTextColor(200, 220, 255);
-  doc.text('Smart Study Companion — Standard 1', pw / 2, 29, { align: 'center' });
+  doc.text('Smart Study Companion - Standard 1', pw / 2, 29, { align: 'center' });
 
   doc.setFontSize(8);
   doc.setTextColor(255, 255, 255);
@@ -109,18 +109,18 @@ export function generateReportCardPDF(data: ReportData): void {
   doc.setFontSize(13);
   doc.setTextColor(BLUE[0], BLUE[1], BLUE[2]);
   doc.setFont('helvetica', 'bold');
-  doc.text(`👤  ${childName}`, margin + 6, y + 10);
+  doc.text(`Student: ${childName}`, margin + 6, y + 10);
 
   doc.setFontSize(9);
   doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Level ${stats.level}  •  ${stats.xp} XP  •  🔥 ${stats.streak}-day streak`, margin + 6, y + 18);
+  doc.text(`Level ${stats.level} | ${stats.xp} XP | ${stats.streak}-day streak`, margin + 6, y + 18);
 
   // Badges count on right
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9);
   doc.setTextColor(AMBER[0], AMBER[1], AMBER[2]);
-  doc.text(`🏅 ${stats.badges.length} Badges`, pw - margin - 6, y + 14, { align: 'right' });
+  doc.text(`${stats.badges.length} Badges`, pw - margin - 6, y + 14, { align: 'right' });
 
   y += 32;
 
@@ -130,7 +130,7 @@ export function generateReportCardPDF(data: ReportData): void {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
   doc.setTextColor(BLUE[0], BLUE[1], BLUE[2]);
-  doc.text('📊  Skills Assessment', margin, y + 4);
+  doc.text('Skills Assessment', margin, y + 4);
   y += 10;
 
   const skills = [
@@ -163,16 +163,16 @@ export function generateReportCardPDF(data: ReportData): void {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
   doc.setTextColor(BLUE[0], BLUE[1], BLUE[2]);
-  doc.text('📈  Weekly Engagement', margin, y + 4);
+  doc.text('Weekly Engagement', margin, y + 4);
   y += 10;
 
   const engagementItems = [
-    { label: 'Days Active', value: `${weeklyEngagement.daysActive}/7`, icon: '📅' },
-    { label: 'Games Played', value: `${weeklyEngagement.gamesPlayed}`, icon: '🎮' },
-    { label: 'Homework Completed', value: `${weeklyEngagement.homeworkDone}`, icon: '📝' },
-    { label: 'AI Questions Asked', value: `${weeklyEngagement.aiQuestions}`, icon: '🤖' },
-    { label: 'Books Used', value: `${weeklyEngagement.booksUsed}`, icon: '📚' },
-    { label: 'Total Activities', value: `${weeklyEngagement.totalActivities}`, icon: '⚡' },
+    { label: 'Days Active', value: `${weeklyEngagement.daysActive}/7` },
+    { label: 'Games Played', value: `${weeklyEngagement.gamesPlayed}` },
+    { label: 'Homework Completed', value: `${weeklyEngagement.homeworkDone}` },
+    { label: 'AI Questions Asked', value: `${weeklyEngagement.aiQuestions}` },
+    { label: 'Books Used', value: `${weeklyEngagement.booksUsed}` },
+    { label: 'Total Activities', value: `${weeklyEngagement.totalActivities}` },
   ];
 
   const colW = contentW / 3;
@@ -189,7 +189,7 @@ export function generateReportCardPDF(data: ReportData): void {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(GRAY[0], GRAY[1], GRAY[2]);
-    doc.text(`${item.icon} ${item.label}`, cx, cy + 6);
+    doc.text(item.label, cx, cy + 6);
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(13);
@@ -205,7 +205,7 @@ export function generateReportCardPDF(data: ReportData): void {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
   doc.setTextColor(BLUE[0], BLUE[1], BLUE[2]);
-  doc.text('🌱  Attendance', margin, y + 4);
+  doc.text('Attendance', margin, y + 4);
   y += 10;
 
   roundedRect(margin, y, contentW, 30, 4, [236, 253, 245] as any, [200, 240, 220] as any);
@@ -242,7 +242,7 @@ export function generateReportCardPDF(data: ReportData): void {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(12);
     doc.setTextColor(BLUE[0], BLUE[1], BLUE[2]);
-    doc.text('🏅  Achievements', margin, y + 4);
+    doc.text('Achievements', margin, y + 4);
     y += 10;
 
     const badgeRowH = Math.ceil(stats.badges.length / 4) * 14 + 6;
@@ -277,7 +277,7 @@ export function generateReportCardPDF(data: ReportData): void {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(12);
     doc.setTextColor(BLUE[0], BLUE[1], BLUE[2]);
-    doc.text('📝  Parent Notes', margin, y + 4);
+    doc.text('Parent Notes', margin, y + 4);
     y += 10;
 
     const noteH = parentNotes.length * 10 + 6;
@@ -289,7 +289,7 @@ export function generateReportCardPDF(data: ReportData): void {
       doc.setFontSize(8);
       doc.setTextColor(DARK[0], DARK[1], DARK[2]);
       const truncated = note.text.length > 80 ? note.text.slice(0, 77) + '...' : note.text;
-      doc.text(`•  ${truncated}`, margin + 8, y + 4);
+      doc.text(`- ${truncated}`, margin + 8, y + 4);
       y += 10;
     });
 
@@ -308,7 +308,7 @@ export function generateReportCardPDF(data: ReportData): void {
   doc.setFontSize(7);
   doc.setTextColor(160, 170, 185);
   doc.text(
-    '🛡️ AI is a support tool. Final decisions remain human-controlled. This system does not rank, predict, or compare students.',
+    'AI is a support tool. Final decisions remain human-controlled. This system does not rank, predict, or compare students.',
     pw / 2,
     footerY + 6,
     { align: 'center', maxWidth: contentW }
@@ -316,7 +316,7 @@ export function generateReportCardPDF(data: ReportData): void {
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
-  doc.text('Smart Study Companion — SSMS Standard 1', pw / 2, footerY + 12, { align: 'center' });
+  doc.text('Smart Study Companion - SSMS Standard 1', pw / 2, footerY + 12, { align: 'center' });
 
   // ── Save ──
   doc.save(`SSMS-Report-${childName.replace(/\s+/g, '-')}-${new Date().toISOString().split('T')[0]}.pdf`);

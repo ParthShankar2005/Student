@@ -19,6 +19,7 @@ import { OverviewPage } from './pages/OverviewPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { AttendancePage } from './pages/AttendancePage';
 import { SettingsPage } from './pages/SettingsPage';
+import { ReportCardPage } from './pages/ReportCardPage';
 import { NCERTAssistantPage } from './pages/NCERTAssistantPage';
 import { AiBuddyLearningZone } from './pages/AiBuddyLearningZone';
 import { AiWorksheetGenerator } from './pages/AiWorksheetGenerator';
@@ -112,6 +113,7 @@ const ParentShell: React.FC = () => {
           onOpenWeeklyReport={() => setAiSubScreen('weekly-report')}
         />;
       case 'books':       return <BooksPage onNavigate={(s) => handleNavigate(s as ParentScreen)} onOpenBook={handleOpenBook} />;
+      case 'report':      return <ReportCardPage onBack={() => setActiveScreen('overview')} />;
       case 'settings':    return <SettingsPage />;
       default:            return null;
     }

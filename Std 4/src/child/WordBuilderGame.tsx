@@ -3,7 +3,7 @@ import { useCelebrate } from './useCelebrationController';
 import { useAddXP } from './XPProvider';
 import { recordJourneyLevel, JOURNEY_GAMES } from './journey/journeyProgress';
 import { logActivity } from '../services/activityLogger';
-import wordBuilderPdfLevels from '../STD 04/word_builder_1000.json';
+import { WORD_BUILDER_PDF_LEVELS as WORD_BUILDER_SOURCE_LEVELS } from '../data/wordGamesData';
 
 const WB_STORAGE_KEY = 'wordBuilder_currentLevel';
 const XP_PER_LEVEL = 25;
@@ -14,7 +14,7 @@ type WordBuilderPdfLevel = {
   answers: string[];
 };
 
-const WORD_BUILDER_PDF_LEVELS = (wordBuilderPdfLevels as WordBuilderPdfLevel[])
+const WORD_BUILDER_PDF_LEVELS = (WORD_BUILDER_SOURCE_LEVELS as WordBuilderPdfLevel[])
   .filter((entry) => Array.isArray(entry.letters) && Array.isArray(entry.answers) && entry.letters.length > 0)
   .map((entry) => ({
     letters: entry.letters.map((letter) => String(letter).trim().toUpperCase()).filter(Boolean),

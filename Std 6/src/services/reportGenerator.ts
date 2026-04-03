@@ -119,7 +119,7 @@ export function generateReportCardPDF(data: ReportData): void {
 
   doc.setFontSize(10);
   doc.setTextColor(200, 220, 255);
-  doc.text('Smart Study Companion — Standard 6', pw / 2, 29, { align: 'center' });
+  doc.text('Smart Study Companion - Standard 6', pw / 2, 29, { align: 'center' });
 
   doc.setFontSize(8);
   doc.setTextColor(255, 255, 255);
@@ -193,12 +193,12 @@ export function generateReportCardPDF(data: ReportData): void {
   y += 10;
 
   const engagementItems = [
-    { label: 'Days Active', value: `${weeklyEngagement.daysActive}/7`, icon: '📅' },
-    { label: 'Games Played', value: `${weeklyEngagement.gamesPlayed}`, icon: '🎮' },
-    { label: 'Homework Completed', value: `${weeklyEngagement.homeworkDone}`, icon: '📝' },
-    { label: 'AI Questions Asked', value: `${weeklyEngagement.aiQuestions}`, icon: '🤖' },
-    { label: 'Books Used', value: `${weeklyEngagement.booksUsed}`, icon: '📚' },
-    { label: 'Total Activities', value: `${weeklyEngagement.totalActivities}`, icon: '⚡' },
+    { label: 'Days Active', value: `${weeklyEngagement.daysActive}/7` },
+    { label: 'Games Played', value: `${weeklyEngagement.gamesPlayed}` },
+    { label: 'Homework Completed', value: `${weeklyEngagement.homeworkDone}` },
+    { label: 'AI Questions Asked', value: `${weeklyEngagement.aiQuestions}` },
+    { label: 'Books Used', value: `${weeklyEngagement.booksUsed}` },
+    { label: 'Total Activities', value: `${weeklyEngagement.totalActivities}` },
   ];
 
   const colW = contentW / 3;
@@ -315,7 +315,7 @@ export function generateReportCardPDF(data: ReportData): void {
       doc.setFontSize(8);
       doc.setTextColor(DARK[0], DARK[1], DARK[2]);
       const truncated = note.text.length > 80 ? note.text.slice(0, 77) + '...' : note.text;
-      doc.text(`•  ${truncated}`, margin + 8, y + 4);
+      doc.text(`- ${truncated}`, margin + 8, y + 4);
       y += 10;
     });
 
@@ -342,7 +342,7 @@ export function generateReportCardPDF(data: ReportData): void {
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
-  doc.text('Smart Study Companion — SSMS Standard 6', pw / 2, footerY + 12, { align: 'center' });
+  doc.text('Smart Study Companion - SSMS Standard 6', pw / 2, footerY + 12, { align: 'center' });
 
   // ── Save ──
   doc.save(`SSMS-Report-${safeFileName(childName)}-${new Date().toISOString().split('T')[0]}.pdf`);

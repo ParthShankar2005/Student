@@ -16,6 +16,7 @@ export type ParentScreen =
   | 'books'
   | 'garden'
   | 'fillblanks'
+  | 'report'
   | 'settings';
 
 interface NavItem {
@@ -37,6 +38,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'books', label: 'Books', sublabel: 'Library', icon: '📚', gradient: 'from-blue-400 to-cyan-500', glowColor: 'rgba(79, 166, 222, 0.2)', accentColor: '#328fcb', iconBg: 'rgba(79, 166, 222, 0.12)' },
   { key: 'garden', label: 'Brain Puzzle', sublabel: 'Puzzles', icon: '🧩', gradient: 'from-teal-400 to-cyan-500', glowColor: 'rgba(54, 190, 184, 0.2)', accentColor: '#179d9b', iconBg: 'rgba(54, 190, 184, 0.12)' },
   { key: 'fillblanks', label: 'Fill in the Blanks', sublabel: 'Student Panel', icon: '✍️', gradient: 'from-emerald-400 to-teal-500', glowColor: 'rgba(46, 186, 154, 0.2)', accentColor: '#159e85', iconBg: 'rgba(46, 186, 154, 0.12)' },
+  { key: 'report', label: 'Report Card', sublabel: 'Print Report', icon: '📄', gradient: 'from-teal-400 to-cyan-500', glowColor: 'rgba(20, 184, 166, 0.2)', accentColor: '#14b8a6', iconBg: 'rgba(20, 184, 166, 0.12)' },
   { key: 'settings', label: 'Settings', sublabel: 'Preferences', icon: '⚙️', gradient: 'from-slate-400 to-sky-500', glowColor: 'rgba(109, 156, 176, 0.18)', accentColor: '#658ea0', iconBg: 'rgba(109, 156, 176, 0.1)' },
 ];
 

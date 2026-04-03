@@ -3,8 +3,10 @@ import { useCelebrate } from './useCelebrationController';
 import { useAddXP } from './XPProvider';
 import { recordJourneyLevel, JOURNEY_GAMES } from './journey/journeyProgress';
 import { logActivity } from '../services/activityLogger';
-import questionsWithAnswersRaw from '../STD 04/odd_one_out_1000_with_answers.txt?raw';
-import wordBuilderPdfLevels from '../STD 04/word_builder_1000.json';
+import {
+  ODD_ONE_OUT_QUESTIONS_WITH_ANSWERS_RAW,
+  WORD_BUILDER_PDF_LEVELS,
+} from '../data/wordGamesData';
 
 const OOO_STORAGE_KEY = 'oddOneOut_currentLevel';
 const XP_PER_LEVEL = 25;
@@ -144,7 +146,7 @@ function seededShuffle<T>(items: T[], seed: number): T[] {
   return nextItems;
 }
 
-const BASE_QUESTIONS = parseQuestionsWithAnswers(questionsWithAnswersRaw);
+const BASE_QUESTIONS = parseQuestionsWithAnswers(ODD_ONE_OUT_QUESTIONS_WITH_ANSWERS_RAW);
 
 const FALLBACK_QUESTIONS: OddOneOutQuestion[] = [
   {
@@ -161,7 +163,7 @@ const WORD_POOL = (() => {
     question.words.forEach((word) => pool.add(normalizeWord(word)));
   }
 
-  for (const level of wordBuilderPdfLevels as WordBuilderPdfLevel[]) {
+  for (const level of WORD_BUILDER_PDF_LEVELS as WordBuilderPdfLevel[]) {
     if (!Array.isArray(level.answers)) continue;
     level.answers.forEach((word) => {
       const normalized = normalizeWord(String(word));

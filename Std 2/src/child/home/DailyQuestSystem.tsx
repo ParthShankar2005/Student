@@ -14,6 +14,14 @@ import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAddXP } from '../XPProvider';
 import { useCelebrate } from '../useCelebrationController';
+import { useAuth } from '../../auth/AuthContext';
+import {
+  buildQuestProgress,
+  buildStudentStorageId,
+  getQuestStorageKey,
+  loadQuestClaimState,
+  saveQuestClaimState,
+} from './homeActivityData';
 
 /* ── Design tokens ──────────────────────────────── */
 
@@ -80,31 +88,27 @@ const QUESTS: QuestDef[] = [
 
 /* ── localStorage ────────────────────────────────── */
 
-const QUEST_KEY = 'ssms_daily_quests';
-
-function getTodayKey(): string { return new Date().toISOString().split('T')[0]; }
-
 interface QuestProgress {
   date: string;
   progress: Record<string, number>;
   claimed: Record<string, boolean>;
 }
 
-function loadQuestProgress(): QuestProgress {
-  try {
-    const raw = localStorage.getItem(QUEST_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw) as QuestProgress;
-      if (parsed.date === getTodayKey()) return parsed;
-    }
-  } catch { /* */ }
-  return { date: getTodayKey(), progress: {}, claimed: {} };
+function loadQuestProgress(storageKey: string): QuestProgress {
+  const state = loadQuestClaimState(storageKey);
+  return {
+    date: state.date,
+    progress: {},
+    claimed: state.claimed,
+  };
 }
 
-function saveQuestProgress(data: QuestProgress): void {
-  try { localStorage.setItem(QUEST_KEY, JSON.stringify(data)); } catch { /* */ }
+function saveQuestProgress(storageKey: string, data: QuestProgress): void {
+  saveQuestClaimState(storageKey, {
+    date: data.date,
+    claimed: data.claimed,
+  });
 }
-
 /* ── Mini confetti ───────────────────────────────── */
 
 const MiniConfetti: React.FC = React.memo(() => (
@@ -263,17 +267,43 @@ QuestRow.displayName = 'QuestRow';
 export const DailyQuestSystem: React.FC = React.memo(() => {
   const addXP = useAddXP();
   const celebrate = useCelebrate();
-  const [questData, setQuestData] = useState<QuestProgress>(loadQuestProgress);
+  const { user, studentProfile } = useAuth();
+  const studentStorageId = useMemo(
+    () => buildStudentStorageId(studentProfile?.studentId, user.name, user.grade),
+    [studentProfile?.studentId, user.name, user.grade],
+  );
+  const storageKey = useMemo(() => getQuestStorageKey(studentStorageId), [studentStorageId]);
+  const questIds = useMemo(() => QUESTS.map(q => q.id), []);
+
+  const [questData, setQuestData] = useState<QuestProgress>(() => {
+    const base = loadQuestProgress(storageKey);
+    return { ...base, progress: buildQuestProgress(questIds) };
+  });
 
   useEffect(() => {
-    const data = loadQuestProgress();
-    if (Object.keys(data.progress).length === 0) {
-      data.progress = { q_games: 1, q_garden: 1, q_letters: 3, q_journey: 0 };
-      saveQuestProgress(data);
-      setQuestData(data);
-    }
-  }, []);
+    const base = loadQuestProgress(storageKey);
+    setQuestData({ ...base, progress: buildQuestProgress(questIds) });
+  }, [storageKey, questIds]);
 
+  useEffect(() => {
+    const sync = () => {
+      const base = loadQuestProgress(storageKey);
+      const liveProgress = buildQuestProgress(questIds);
+      setQuestData(prev => ({
+        date: base.date,
+        claimed: base.date === prev.date ? { ...base.claimed, ...prev.claimed } : base.claimed,
+        progress: liveProgress,
+      }));
+    };
+
+    sync();
+    const intervalId = window.setInterval(sync, 5000);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener('storage', sync);
+    };
+  }, [storageKey, questIds]);
   const totalQuests = QUESTS.length;
   const completedQuests = useMemo(
     () => QUESTS.filter(q => questData.claimed[q.id]).length,
@@ -286,11 +316,20 @@ export const DailyQuestSystem: React.FC = React.memo(() => {
     addXP(quest.xpReward);
     celebrate('confetti');
     setQuestData(prev => {
-      const next = { ...prev, claimed: { ...prev.claimed, [id]: true } };
-      saveQuestProgress(next);
+      const base = loadQuestProgress(storageKey);
+      const next: QuestProgress = {
+        date: base.date,
+        progress: prev.progress,
+        claimed: {
+          ...(base.date === prev.date ? base.claimed : {}),
+          ...prev.claimed,
+          [id]: true,
+        },
+      };
+      saveQuestProgress(storageKey, next);
       return next;
     });
-  }, [addXP, celebrate]);
+  }, [addXP, celebrate, storageKey]);
 
   const overallPct = totalQuests > 0 ? Math.round((completedQuests / totalQuests) * 100) : 0;
 
@@ -351,7 +390,7 @@ export const DailyQuestSystem: React.FC = React.memo(() => {
             <QuestRow
               key={q.id}
               quest={q}
-              progress={questData.progress[q.id] ?? 0}
+              progress={Math.min(questData.progress[q.id] ?? 0, q.target)}
               claimed={questData.claimed[q.id] ?? false}
               onClaim={handleClaim}
               index={i}
@@ -386,3 +425,5 @@ export const DailyQuestSystem: React.FC = React.memo(() => {
 });
 
 DailyQuestSystem.displayName = 'DailyQuestSystem';
+
+

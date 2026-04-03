@@ -1,0 +1,22 @@
+export type WordBuilderLevelData = {
+  letters: string[];
+  answers: string[];
+};
+
+export const ODD_ONE_OUT_QUESTIONS_WITH_ANSWERS_RAW = `1. Apple, Banana, Mango, Car Answer: Car
+2. Cat, Dog, Cow, Pen Answer: Pen
+3. Red, Blue, Green, Table Answer: Table
+4. Rose, Lily, Lotus, Book Answer: Book
+5. Circle, Square, Triangle, Banana Answer: Banana
+6. Sun, Moon, Star, Chair Answer: Chair
+7. Spoon, Plate, Cup, Tiger Answer: Tiger
+8. Pencil, Eraser, Ruler, Orange Answer: Orange
+9. Bus, Car, Train, Bottle Answer: Bottle
+10. India, Japan, Brazil, Pillow Answer: Pillow`;
+
+export const WORD_BUILDER_PDF_LEVELS: WordBuilderLevelData[] = [
+  {
+    letters: ['C', 'A', 'T'],
+    answers: ['CAT', 'ACT'],
+  },
+];

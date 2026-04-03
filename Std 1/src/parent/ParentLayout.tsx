@@ -21,6 +21,7 @@ import { AttendancePage } from './pages/AttendancePage';
 import { GardenGrowthPage } from './pages/GardenGrowthPage';
 import { ColorProgressPage } from './pages/ColorProgressPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { ReportCardPage } from './pages/ReportCardPage';
 import { NCERTAssistantPage } from './pages/NCERTAssistantPage';
 import { AiBuddyLearningZone } from './pages/AiBuddyLearningZone';
 import { AiWorksheetGenerator } from './pages/AiWorksheetGenerator';
@@ -111,6 +112,7 @@ const ParentShell: React.FC = () => {
       case 'books':       return <BooksPage onNavigate={(s) => handleNavigate(s as ParentScreen)} onOpenBook={handleOpenBook} />;
       case 'garden':      return <GardenGrowthPage />;
       case 'colors':      return <ColorProgressPage />;
+      case 'report':      return <ReportCardPage onBack={() => setActiveScreen('overview')} />;
       case 'settings':    return <SettingsPage />;
       default:            return null;
     }

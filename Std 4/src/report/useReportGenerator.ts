@@ -195,7 +195,7 @@ export function useReportGenerator(
 
     return {
       studentName,
-      grade: 1,
+      grade: 4,
       academicYear: currentAcademicYear(),
       generatedAt: new Date().toLocaleDateString('en-IN', {
         day: '2-digit',

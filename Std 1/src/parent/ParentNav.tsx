@@ -16,7 +16,7 @@ import { buildLiveMonitoring, type LiveMonitoringState } from './liveMonitoring'
 
 /* ── Screen type ── */
 
-export type ParentScreen = 'overview' | 'progress' | 'attendance' | 'ai-buddy' | 'books' | 'garden' | 'colors' | 'settings';
+export type ParentScreen = 'overview' | 'progress' | 'attendance' | 'ai-buddy' | 'books' | 'garden' | 'colors' | 'report' | 'settings';
 
 /* ── Nav Items ── */
 
@@ -39,6 +39,7 @@ const NAV_ITEMS: NavItem[] = [
   { key: 'books',       label: 'Books',           sublabel: 'Library',       icon: '📚', gradient: 'from-rose-400 to-pink-500',    glowColor: 'rgba(244,63,94,0.20)',    accentColor: '#f43f5e', iconBg: 'rgba(244,63,94,0.10)' },
   { key: 'garden',      label: 'Garden Growth',  sublabel: 'Responsibility', icon: '🌳', gradient: 'from-green-400 to-emerald-600', glowColor: 'rgba(34,197,94,0.20)',    accentColor: '#22c55e', iconBg: 'rgba(34,197,94,0.10)' },
   { key: 'colors',      label: 'Color Skills',   sublabel: 'Creative',      icon: '🎨', gradient: 'from-pink-400 to-orange-500',   glowColor: 'rgba(244,114,182,0.20)',  accentColor: '#f472b6', iconBg: 'rgba(244,114,182,0.10)' },
+  { key: 'report',      label: 'Report Card',    sublabel: 'Print Report',   icon: '📄', gradient: 'from-teal-400 to-cyan-500',    glowColor: 'rgba(20,184,166,0.20)',   accentColor: '#14b8a6', iconBg: 'rgba(20,184,166,0.10)' },
   { key: 'settings',    label: 'Settings',       sublabel: 'Preferences',   icon: '⚙️', gradient: 'from-slate-400 to-gray-500',    glowColor: 'rgba(100,116,139,0.15)',  accentColor: '#64748b', iconBg: 'rgba(100,116,139,0.08)' },
 ];
 
