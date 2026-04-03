@@ -1,5 +1,6 @@
 const fs = require('fs');
-const p = 'e:/intership/Std 6/Std 6/games/LevelGrid.tsx';
+const path = require('path');
+const p = path.resolve(__dirname, '../../src/games/LevelGrid.tsx');
 let s = fs.readFileSync(p, 'utf8');
 
 // ------------------------------------------------------------------
@@ -111,3 +112,4 @@ console.log('\nFinal checks:');
 console.log('chainSegments gone:', !s.includes('chainSegments'));
 console.log('SVG chain present:', s.includes('Gold chain SVG'));
 console.log('chain.png gone:', !s.includes('chain.png'));
+

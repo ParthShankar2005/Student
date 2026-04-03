@@ -1,25 +1,25 @@
-import journeyBackgroundImg from '../../assets2/path/journey-zigzag-path1.png';
-import journeyPathImg from '../../assets2/path/journey-zigzag-path.png';
+import journeyBackgroundImg from '../../assets/path/journey-zigzag-path1.png';
+import journeyPathImg from '../../assets/path/journey-zigzag-path.png';
 
-import achievementRingImg from '../../assets2/achievements/achievement-ring.png';
-import achievementLockedImg from '../../assets2/achievements/achievement-locked.png';
-import achievementCompleteImg from '../../assets2/achievements/achievement-complete.png';
+import achievementRingImg from '../../assets/achievements/achievement-ring.png';
+import achievementLockedImg from '../../assets/achievements/achievement-locked.png';
+import achievementCompleteImg from '../../assets/achievements/achievement-complete.png';
 
-import medalGamesImg from '../../assets2/medals/medal-games.png';
-import medalMathsImg from '../../assets2/medals/medal-maths.png';
-import medalEnglishImg from '../../assets2/medals/medal-english.png';
-import medalBrainImg from '../../assets2/medals/medal-brain.png';
-import medalPuzzleImg from '../../assets2/medals/medal-puzzle.png';
-import medalArenaImg from '../../assets2/medals/medal-arena.png';
+import medalGamesImg from '../../assets/medals/medal-games.png';
+import medalMathsImg from '../../assets/medals/medal-maths.png';
+import medalEnglishImg from '../../assets/medals/medal-english.png';
+import medalBrainImg from '../../assets/medals/medal-brain.png';
+import medalPuzzleImg from '../../assets/medals/medal-puzzle.png';
+import medalArenaImg from '../../assets/medals/medal-arena.png';
 
-import iconControllerImg from '../../assets2/icons/icon-controller.png';
-import iconMathImg from '../../assets2/icons/icon-math.png';
-import iconBookImg from '../../assets2/icons/icon-book.png';
-import iconBrainImg from '../../assets2/icons/icon-brain.png';
-import iconPuzzleImg from '../../assets2/icons/icon-puzzle.png';
+import iconControllerImg from '../../assets/icons/icon-controller.png';
+import iconMathImg from '../../assets/icons/icon-math.png';
+import iconBookImg from '../../assets/icons/icon-book.png';
+import iconBrainImg from '../../assets/icons/icon-brain.png';
+import iconPuzzleImg from '../../assets/icons/icon-puzzle.png';
 
-import sparkleImg from '../../assets2/effects/sparkle.png';
-import confettiImg from '../../assets2/effects/confetti.png';
+import sparkleImg from '../../assets/effects/sparkle.png';
+import confettiImg from '../../assets/effects/confetti.png';
 
 export const journeyAssets = {
   background: journeyBackgroundImg,
@@ -71,3 +71,4 @@ export function getJourneyIcon(key: JourneySectionVisualKey): string {
 export function getJourneyMedal(key: JourneySectionVisualKey): string {
   return journeySectionVisuals[key].medal;
 }
+

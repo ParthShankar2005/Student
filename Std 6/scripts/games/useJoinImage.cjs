@@ -1,5 +1,6 @@
 const fs = require('fs');
-const p = 'e:/intership/Std 6/Std 6/games/LevelGrid.tsx';
+const path = require('path');
+const p = path.resolve(__dirname, '../../src/games/LevelGrid.tsx');
 let s = fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n');
 
 // Find exact start and end of the block to replace
@@ -57,3 +58,4 @@ console.log('Done. Checks:');
 console.log('img connector present:', s.includes('join the level.png'));
 console.log('SVG gone:', !s.includes('<svg'));
 console.log('old path gone:', !s.includes('strokeDasharray'));
+

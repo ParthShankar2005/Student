@@ -1,5 +1,6 @@
 const fs = require('fs');
-const p = 'e:/intership/Std 6/Std 6/games/LevelGrid.tsx';
+const path = require('path');
+const p = path.resolve(__dirname, '../../src/games/LevelGrid.tsx');
 let s = fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n');
 
 // 1. Add getStars prop to RailwayLevelMap type
@@ -57,3 +58,4 @@ console.log('getStars callback added:', s.includes('getStars = useCallback'));
 console.log('getStars passed to map:', s.includes('getStars={getStars}'));
 console.log('dynamic stars render:', s.includes("'⭐'.repeat(getStars(level))"));
 console.log('hardcoded ⭐⭐⭐ gone:', !s.includes('⭐⭐⭐'));
+

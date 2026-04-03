@@ -1,5 +1,6 @@
 const fs = require('fs');
-const p = 'e:/intership/Std 6/Std 6/games/LevelGrid.tsx';
+const path = require('path');
+const p = path.resolve(__dirname, '../../src/games/LevelGrid.tsx');
 let s = fs.readFileSync(p, 'utf8');
 
 const oldBlock = s.match(/const MINE_ROAD_POSITIONS[\s\S]*?\];/)[0];
@@ -54,3 +55,4 @@ const newBlock = `const MINE_ROAD_POSITIONS: { top: number; left: number }[] = [
 s = s.replace(oldBlock, newBlock);
 fs.writeFileSync(p, s, 'utf8');
 console.log('Done. Verifying level 1:', s.match(/left: 56 \}, \/\/ 1/) ? 'OK' : 'FAIL');
+

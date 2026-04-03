@@ -1,5 +1,6 @@
 const fs = require('fs');
-const p = 'e:/intership/Std 6/Std 6/games/LevelGrid.tsx';
+const path = require('path');
+const p = path.resolve(__dirname, '../../src/games/LevelGrid.tsx');
 let s = fs.readFileSync(p, 'utf8');
 
 // Normalize to LF for easier matching
@@ -92,3 +93,4 @@ if (s.includes(oldBlock)) {
 
 fs.writeFileSync(p, s, 'utf8');
 console.log('Done. Curved path present:', s.includes('Q${cpx},${cpy}') || s.includes('Q${cpx},${cpy}') || s.includes('cpx'));
+

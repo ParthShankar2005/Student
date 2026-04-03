@@ -1,5 +1,6 @@
 const fs = require('fs');
-const p = 'e:/intership/Std 6/Std 6/games/LevelGrid.tsx';
+const path = require('path');
+const p = path.resolve(__dirname, '../../src/games/LevelGrid.tsx');
 let s = fs.readFileSync(p, 'utf8');
 
 // Use CRLF-aware replacement
@@ -60,3 +61,4 @@ console.log('Done. Checks:');
 console.log('containerRef var:', s.includes('containerRef'));
 console.log('ref={containerRef}:', s.includes('ref={containerRef}'));
 console.log('chainSegments:', s.includes('chainSegments'));
+

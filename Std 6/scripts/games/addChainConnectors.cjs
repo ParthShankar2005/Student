@@ -1,5 +1,6 @@
 const fs = require('fs');
-const p = 'e:/intership/Std 6/Std 6/games/LevelGrid.tsx';
+const path = require('path');
+const p = path.resolve(__dirname, '../../src/games/LevelGrid.tsx');
 let s = fs.readFileSync(p, 'utf8');
 
 // 1. Add useRef to the React import
@@ -91,3 +92,4 @@ console.log('useRef imported:', s.includes('useRef'));
 console.log('containerRef added:', s.includes('containerRef'));
 console.log('chainSegments added:', s.includes('chainSegments'));
 console.log('chain img rendered:', s.includes('chain.png'));
+
