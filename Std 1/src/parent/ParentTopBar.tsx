@@ -48,7 +48,7 @@ function loadParentNotifications(): ParentNotificationItem[] {
       icon: String(item?.icon || '🔔'),
       text: String(item?.text || 'Notification'),
       time: String(item?.time || 'Just now'),
-      bg: String(item?.bg || 'rgba(99,102,241,0.08)'),
+      bg: String(item?.bg || 'var(--sidebar-hover-bg)'),
       createdAt: item?.createdAt ? String(item.createdAt) : undefined,
     }));
   } catch {
@@ -83,9 +83,9 @@ const ConfirmLogoutModal: React.FC<{
         <motion.div
           className="relative w-full max-w-md overflow-hidden rounded-[30px] p-6 md:p-7"
           style={{
-            background: 'linear-gradient(180deg, rgba(6,11,28,0.98) 0%, rgba(15,23,42,0.96) 100%)',
-            border: '1px solid rgba(148,163,184,0.18)',
-            boxShadow: '0 30px 70px rgba(2,6,23,0.5)',
+            background: 'var(--gradient-topbar)',
+            border: '1px solid var(--border-soft)',
+            boxShadow: 'var(--shadow-card-hover)',
           }}
           initial={{ opacity: 0, y: 24, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -99,7 +99,7 @@ const ConfirmLogoutModal: React.FC<{
             className="absolute inset-x-0 top-0 h-24"
             style={{
               background:
-                'radial-gradient(circle at top left, rgba(56,189,248,0.18), transparent 60%), radial-gradient(circle at top right, rgba(168,85,247,0.16), transparent 55%)',
+                'radial-gradient(circle at top left, var(--sidebar-hover-bg), transparent 60%), radial-gradient(circle at top right, rgba(255,255,255,0.42), transparent 55%)',
             }}
             aria-hidden
           />
@@ -108,8 +108,8 @@ const ConfirmLogoutModal: React.FC<{
             <div
               className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.18em]"
               style={{
-                background: 'rgba(96,165,250,0.12)',
-                color: '#bfdbfe',
+                background: 'var(--sidebar-hover-bg)',
+                color: 'var(--sidebar-text-active)',
               }}
             >
               Parent mode
@@ -131,9 +131,9 @@ const ConfirmLogoutModal: React.FC<{
                 onClick={onCancel}
                 className="flex-1 rounded-2xl py-3 text-[14px] font-extrabold"
                 style={{
-                  background: 'rgba(15,23,42,0.82)',
-                  color: 'var(--text-secondary)',
-                  border: '1px solid rgba(148,163,184,0.18)',
+                  background: 'var(--sidebar-hover-bg)',
+                  color: 'var(--sidebar-text-active)',
+                  border: '1px solid var(--border-soft)',
                 }}
               >
                 Cancel
@@ -143,8 +143,8 @@ const ConfirmLogoutModal: React.FC<{
                 onClick={onConfirm}
                 className="flex-1 rounded-2xl py-3 text-[14px] font-extrabold text-white"
                 style={{
-                  background: 'linear-gradient(135deg, #f97316 0%, #ef4444 100%)',
-                  boxShadow: '0 12px 26px rgba(239,68,68,0.24)',
+                  background: 'linear-gradient(135deg, var(--sidebar-text-active) 0%, var(--text-primary) 100%)',
+                  boxShadow: 'var(--shadow-soft)',
                 }}
               >
                 Logout
@@ -257,16 +257,16 @@ export const ParentTopBar: React.FC<ParentTopBarProps> = React.memo(({ onOpenSet
                     width: 44,
                     height: 44,
                     borderRadius: 30,
-                    background: 'rgba(15,23,42,0.82)',
+                    background: 'var(--gradient-topbar)',
                     boxShadow: 'var(--shadow-soft)',
-                    border: '1px solid rgba(148,163,184,0.18)',
+                    border: '1px solid var(--border-soft)',
                     transition: 'all 0.25s ease',
                   }}
-                  whileHover={{ scale: 1.08, boxShadow: 'var(--shadow-glow-purple)' }}
+                  whileHover={{ scale: 1.08, boxShadow: 'var(--shadow-card-hover)' }}
                   whileTap={{ scale: 0.92 }}
                   aria-label="Notifications"
                 >
-                  <span style={{ fontSize: 18 }}>🔔</span>
+                  <span style={{ fontSize: 18, color: 'var(--text-primary)' }}>🔔</span>
                 </motion.button>
 
                 <motion.div
@@ -277,9 +277,9 @@ export const ParentTopBar: React.FC<ParentTopBarProps> = React.memo(({ onOpenSet
                     width: 10,
                     height: 10,
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, var(--pastel-pink-deep), #ef6b6b)',
-                    boxShadow: '0 0 8px rgba(255,140,180,0.5)',
-                    border: '2px solid #0f172a',
+                    background: 'linear-gradient(135deg, var(--sidebar-text-active), var(--text-primary))',
+                    boxShadow: 'var(--shadow-glow-purple)',
+                    border: '2px solid rgba(255,255,255,0.84)',
                   }}
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
@@ -290,9 +290,9 @@ export const ParentTopBar: React.FC<ParentTopBarProps> = React.memo(({ onOpenSet
                     <motion.div
                     className="absolute right-0 top-14 w-72 rounded-3xl overflow-hidden"
                     style={{
-                        background: 'rgba(9,14,27,0.94)',
+                        background: 'var(--gradient-topbar)',
                         backdropFilter: 'blur(24px)',
-                        border: '1px solid rgba(148,163,184,0.16)',
+                        border: '1px solid var(--border-soft)',
                         boxShadow: 'var(--shadow-card-hover)',
                       }}
                       initial={{ opacity: 0, y: -8, scale: 0.95 }}
@@ -314,7 +314,7 @@ export const ParentTopBar: React.FC<ParentTopBarProps> = React.memo(({ onOpenSet
                               padding: '10px 12px',
                               borderRadius: 12,
                               cursor: 'pointer',
-                              background: notification.bg || 'rgba(99,102,241,0.08)',
+                              background: notification.bg || 'var(--sidebar-hover-bg)',
                               marginBottom: index < notifications.length - 1 ? 4 : 0,
                               transition: 'background 0.15s ease',
                             }}

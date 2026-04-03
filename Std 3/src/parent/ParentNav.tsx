@@ -260,13 +260,13 @@ export const ParentNav: React.FC<Props> = React.memo(({ active, onNavigate }) =>
         bottom: 20,
         zIndex: 45,
         width: 248,
-        background: 'linear-gradient(180deg, rgba(8,12,28,0.96) 0%, rgba(15,23,42,0.92) 100%)',
+        background: 'var(--gradient-topbar)',
         backdropFilter: 'blur(22px)',
         WebkitBackdropFilter: 'blur(22px)',
         borderRadius: 20,
         padding: '14px 16px',
-        border: '1px solid rgba(96,165,250,0.16)',
-        boxShadow: '0 20px 42px rgba(2,6,23,0.42)',
+        border: '1px solid var(--border-soft)',
+        boxShadow: 'var(--shadow-card-hover)',
       }}
       initial={{ opacity: 0, y: 24, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -284,7 +284,7 @@ export const ParentNav: React.FC<Props> = React.memo(({ active, onNavigate }) =>
           animate={{ scale: [1, 1.25, 1], opacity: [1, 0.72, 1] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <span style={{ fontSize: 11, fontWeight: 800, color: '#93C5FD', letterSpacing: '0.08em' }}>LIVE STATUS</span>
+        <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--sidebar-text-active)', letterSpacing: '0.08em' }}>LIVE STATUS</span>
         <span style={{
           marginLeft: 'auto',
           fontSize: 9,
@@ -300,16 +300,16 @@ export const ParentNav: React.FC<Props> = React.memo(({ active, onNavigate }) =>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
-          <span style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8' }}>Last activity</span>
-          <span style={{ fontSize: 10, fontWeight: 700, color: '#E2E8F0', textAlign: 'right' }}>{liveMonitoring.lastSession}</span>
+          <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--sidebar-text-muted)' }}>Last activity</span>
+          <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-primary)', textAlign: 'right' }}>{liveMonitoring.lastSession}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
-          <span style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8' }}>Recent session</span>
-          <span style={{ fontSize: 10, fontWeight: 700, color: '#CBD5E1', textAlign: 'right' }}>{liveMonitoring.sessionLength}</span>
+          <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--sidebar-text-muted)' }}>Recent session</span>
+          <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-primary)', textAlign: 'right' }}>{liveMonitoring.sessionLength}</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
-          <span style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8' }}>Current activity</span>
-          <span style={{ fontSize: 10, fontWeight: 700, color: '#818CF8', textAlign: 'right', maxWidth: 128, lineHeight: 1.35 }}>
+          <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--sidebar-text-muted)' }}>Current activity</span>
+          <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--sidebar-text-active)', textAlign: 'right', maxWidth: 128, lineHeight: 1.35 }}>
             {liveMonitoring.currentActivity}
           </span>
         </div>
