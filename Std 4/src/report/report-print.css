@@ -40,8 +40,8 @@
 
 .report-btn-primary {
   color: #ffffff;
-  background: linear-gradient(135deg, var(--report-primary, #1e3a8a), var(--report-secondary, #2563eb));
-  box-shadow: 0 8px 18px rgba(30, 58, 138, 0.22);
+  background: linear-gradient(135deg, var(--report-primary, #92400e), var(--report-secondary, #b45309));
+  box-shadow: 0 8px 18px rgba(146, 64, 14, 0.22);
 }
 
 .report-btn-secondary {
@@ -51,15 +51,15 @@
 }
 
 .report-page {
-  --report-primary: #1e3a8a;
-  --report-secondary: #2563eb;
-  --report-accent: #38bdf8;
-  --report-soft: #eaf4ff;
-  --report-badge: #dbeafe;
-  --report-chip: rgba(255, 255, 255, 0.88);
-  --report-frost: rgba(255, 255, 255, 0.72);
-  --report-orb-a: rgba(56, 189, 248, 0.36);
-  --report-orb-b: rgba(37, 99, 235, 0.24);
+  --report-primary: #92400e;
+  --report-secondary: #b45309;
+  --report-accent: #f59e0b;
+  --report-soft: #fffbeb;
+  --report-badge: #fef3c7;
+  --report-chip: rgba(255, 255, 255, 0.90);
+  --report-frost: rgba(255, 255, 255, 0.74);
+  --report-orb-a: rgba(245, 158, 11, 0.28);
+  --report-orb-b: rgba(180, 83, 9, 0.22);
 
   position: relative;
   overflow: hidden;
